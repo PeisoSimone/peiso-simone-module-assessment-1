@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import {useState} from "react";
+import * as firebase from 'firebase'
 import {
   Text,
   View,
@@ -9,7 +10,6 @@ import {
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-      <Text>This is Home screen, press below to navigate diffence screens</Text>
 
         <Pressable
           onPress={() => navigation.navigate('Details')}
@@ -21,24 +21,6 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate('Dashboard')}
         style={styles.inputView}>
        <Text>Dashboard</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => navigation.navigate('Splash')}
-        style={styles.inputView}>
-       <Text>Splash</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => navigation.navigate('Sign In')}
-        style={styles.inputView}>
-       <Text>Sign-In</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => navigation.navigate('Sign Up')}
-        style={styles.inputView}>
-       <Text>Sign-In</Text>
       </Pressable>
     </View>
   );

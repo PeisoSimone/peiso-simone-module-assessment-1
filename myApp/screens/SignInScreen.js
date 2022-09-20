@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import {useState} from "react";
+import * as firebase from 'firebase'
+
 import {
   StyleSheet,
   Text,
@@ -10,14 +12,27 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-function SignInScreen({ navigation }){
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
- 
+
+const SignInScreen = () => {
+  const navigation = useNavigation()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  loginUser = async (email,password) => {
+      try{
+          await firebase.auth().signInWithEmailAndPassword(email,password)
+      } catch (error){
+        alert(error)
+      }
+  }
+
   return (
     <View style={styles.container}>
- 
       <StatusBar style="auto" />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{fontWeight: 'bold', fontSize: 30 }}> Welcome Back</Text>
+        </View>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
@@ -41,13 +56,13 @@ function SignInScreen({ navigation }){
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
  
-      <TouchableOpacity style={styles.loginBtn} onPress ={() => navigation.navigate('Home')}>
+      <TouchableOpacity style={styles.loginBtn} onPress={()=>loginUser(email,password)}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
 
 
-      <TouchableOpacity style={styles.forgot_button} onPress ={() => navigation.navigate('SignUp')}>
-        <Text style={styles.forgot_button}>You don't have an account? SignUp Here</Text>
+      <TouchableOpacity style={styles.forgot_button} onPress ={() => navigation.navigate('Sign Up')}>
+        <Text style={styles.forgot_button}>You don't have an account? Sign Up Here</Text>
       </TouchableOpacity>
     </View>
   );
@@ -86,7 +101,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 40,
-    backgroundColor: "blue",
+    backgroundColor: "#2c698d",
+    padding:10,
   },
 });
 export default SignInScreen;
