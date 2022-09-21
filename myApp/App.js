@@ -7,18 +7,13 @@ import SignInScreen from './screens/SignInScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import HomeScreen from './screens/HomeScreen'
 
-
-
-
 import * as firebase from 'firebase';
 import firebaseConfig from './src/firebaseConfig';
 
 
-
-
 const Stack = createNativeStackNavigator();
 
-function App () {
+function App() {
   if (!firebase.apps.length) {
     console.log("firebase is connected");
     firebase.initializeApp(firebaseConfig);
@@ -33,50 +28,49 @@ function App () {
   }
   useEffect(() => {
     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; 
+    return subscriber;
   }, []);
 
   if (initializing) return null;
 
   if (!user) {
     return (
-        <Stack.Navigator>
-          <Stack.Screen name="Sign In" 
-          component={SignInScreen} 
+      <Stack.Navigator>
+        <Stack.Screen name="Sign In"
+          component={SignInScreen}
           options={{
-              title: 'Sing In',
-              headerStyle: {
-                backgroundColor: '#272643',
-              },
-              headerTintColor: '#fff',
-            }}/>
-         
-          <Stack.Screen name="Sign Up" 
-          component={SignUpScreen}options={{
-            title: 'Sing Up',
-              headerStyle: {
-                backgroundColor: '#272643',
-              },
-              headerTintColor: '#fff',
-            }}
+            title: 'Sing In',
+            headerStyle: {
+              backgroundColor: '#272643',
+            },
+            headerTintColor: '#fff',
+          }} />
 
-            />
-        </Stack.Navigator>
+        <Stack.Screen name="Sign Up"
+          component={SignUpScreen} options={{
+            title: 'Sing Up',
+            headerStyle: {
+              backgroundColor: '#272643',
+            },
+            headerTintColor: '#fff',
+          }}
+        />
+      </Stack.Navigator>
     );
   }
 
-  return(
-      <Stack.Navigator>
-      <Stack.Screen name="Home" 
-          component={HomeScreen}
-          options={{
-            title: 'Home',
-              headerStyle: {
-                backgroundColor: '#272643',
-              },
-              headerTintColor: '#fff',
-            }}/>
-      </Stack.Navigator>
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home"
+        component={HomeScreen}
+        options={{
+          title: 'Home',
+          headerStyle: {
+            backgroundColor: '#272643',
+          },
+          headerTintColor: '#fff',
+        }} />
+    </Stack.Navigator>
   );
 }
 
