@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {useState} from "react";
-import * as firebase from 'firebase'
-
+import { loginUser } from "../src/Authentication";
 import {
   StyleSheet,
   Text,
@@ -13,17 +12,14 @@ import {
 } from "react-native";
 
 
-const SignInScreen = () => {
-  const navigation = useNavigation()
+
+const SignInScreen = ({ navigation }) => {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  loginUser = async (email,password) => {
-      try{
-          await firebase.auth().signInWithEmailAndPassword(email,password)
-      } catch (error){
-        alert(error)
-      }
+  const SignIn =()=>{
+    loginUser(email,password)
   }
 
   return (
@@ -56,7 +52,7 @@ const SignInScreen = () => {
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
  
-      <TouchableOpacity style={styles.loginBtn} onPress={()=>loginUser(email,password)}>
+      <TouchableOpacity style={styles.loginBtn} onPress={()=>SignIn(email,password)}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
 

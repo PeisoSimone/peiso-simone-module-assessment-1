@@ -1,29 +1,36 @@
-import {useState} from "react";
+import {  useEffect,useState } from 'react';
+import {  Text , StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase'
-import {
-  Text,
-  View,
-  Pressable,
-  StyleSheet
-} from 'react-native';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
+  const [name, setName] = useState([]);
+
+  useEffect(() => {
+    firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get()
+    .then((snapshot) =>{
+      if(snapshot.exists){
+          setName(snapshot.data())
+      }
+      else {
+        console.log('does not exist')
+      }
+  })
+  }, [])
+
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+    <SafeAreaView style={styles.container}>
+      
+        <Text style={{fontSize:20, fontWeight:'bold'}}>
+          Welcome, {name.firstName}
+        </Text>
 
-        <Pressable
-          onPress={() => navigation.navigate('Details')}
-          style={styles.inputView}>
-        <Text>Details</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => navigation.navigate('Dashboard')}
-        style={styles.inputView}>
-       <Text>Dashboard</Text>
-      </Pressable>
-    </View>
-  );
+        <TouchableOpacity style={styles.loginBtn} onPress={()=>{firebase.auth().signOut();}}>
+        <Text style={styles.loginText}>LOGOUT</Text>
+      </TouchableOpacity>
+      
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -52,11 +59,16 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
  
-  forgot_button: {
-    height: 30,
-    marginBottom: 30,
-  },
  
+  loginBtn: {
+    width: "80%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    backgroundColor: "#2c698d",
+    padding:10,
+  },
 });
-
 export default HomeScreen;

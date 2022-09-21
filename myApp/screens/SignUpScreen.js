@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {useState} from "react";
-import * as firebase from 'firebase'
+import { registerUser } from "../src/Authentication";
 import {
   StyleSheet,
   Text,
@@ -9,44 +9,21 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
 
-    registerUser = async (email,password, firstName, lastName) => {
-        await firebase.auth().createUserWithEmailAndPassword(email,password)
-        .then(() => {
-          firebase.auth().currentUser.sendEmailVerification({
-            handleCodeInApp: true,
-            url: 'https://test-aea73.firebaseapp.com',
-           })
-          .then(() => {
-                alert("Email sent")
-            }).catch((error) => {
-                alert(error)
-            })
-            .then(() => {
-              firebase.firestore().collection("users")
-              .doc(firebase.auth().currentUser.uid)
-              .set({
-                  firstName,
-                  lastName,
-                  email,
-              })
-            })
-            .catch((error) => {
-              alert(error)
-          })
-        })
-        .catch((error) => {
-            alert(error)
-        })
-    }
- 
+  const signUser=()=>{
+    registerUser(email,password, firstName, lastName)
+  }
+
+
+
   return (
     <View style={styles.container}>
  
@@ -95,7 +72,7 @@ const SignUpScreen = () => {
       </View>
 
 
-      <TouchableOpacity style={styles.loginBtn} onPress={()=>registerUser(email,password, firstName, lastName)}>
+      <TouchableOpacity style={styles.loginBtn} onPress={()=>signUser(email,password, firstName, lastName)}>
         <Text style={styles.loginText}>REGISTER</Text>
       </TouchableOpacity>
  
