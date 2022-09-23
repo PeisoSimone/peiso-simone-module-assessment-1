@@ -2,3 +2,4 @@
 
 # Allows users to register an account, and then log in to the app’s dashboard with a Firebase.
 # Read data from a dataset for a feature on the app.
+# Code must be submitted through a public Github repository (APK not necessary)
